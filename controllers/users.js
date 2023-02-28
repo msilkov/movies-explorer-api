@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const { STATUS_OK } = require('../utils/constants');
 
@@ -15,9 +16,7 @@ const createUser = (req, res, next) => {
     .then((user) => {
       res.status(STATUS_OK).send(user);
     })
-    .catch((err) => {
-      console.log(`При выполнении кода произошла ошибка ${err.name} c текстом ${err.message}, но мы её обработали`);
-    });
+    .catch(next);
 };
 
 const getUserInfo = (req, res, next) => {
@@ -25,13 +24,11 @@ const getUserInfo = (req, res, next) => {
     .then((user) => {
       res.status(STATUS_OK).send(user);
     })
-    .catch((err) => {
-      console.log(`При выполнении кода произошла ошибка ${err.name} c текстом ${err.message}, но мы её обработали`);
-    });
+    .catch(next);
 };
 
 const patchUserInfo = (req, res, next) => {
-
+  res.status(STATUS_OK).send({ message: 'user was patched' });
 };
 
 module.exports = {

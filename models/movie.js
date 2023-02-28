@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { REG_LINK } = require('../utils/constants.js');
+const { REG_LINK } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -43,6 +43,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
+    type: Number,
     required: true,
     // id фильма, который содержится в ответе сервиса MoviesExplorer.
   },
