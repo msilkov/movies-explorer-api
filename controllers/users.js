@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-req-err');
+const ConflictError = require('../errors/conflict-err');
 
 const User = require('../models/user');
 const { STATUS_OK } = require('../utils/constants');
@@ -17,7 +18,17 @@ const createUser = (req, res, next) => {
     .then((user) => {
       res.status(STATUS_OK).send(user);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError());
+        return;
+      }
+      if (err.code === 11000) {
+        next(new ConflictError('email'));
+        return;
+      }
+      next(err);
+    });
 };
 
 const getUserInfo = (req, res, next) => {
@@ -31,9 +42,9 @@ const getUserInfo = (req, res, next) => {
 
 const patchUserInfo = (req, res, next) => {
   const { name, email } = req.body;
-  const currentUserId = req.user._id;
+  const userId = req.user._id;
   User.findByIdAndUpdate(
-    currentUserId,
+    userId,
     { name, email },
     {
       new: true,
@@ -47,6 +58,10 @@ const patchUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError());
+        return;
+      }
+      if (err.code === 11000) {
+        next(new ConflictError('email'));
         return;
       }
       next(err);

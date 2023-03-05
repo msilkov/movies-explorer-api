@@ -9,8 +9,8 @@ class NotFoundError extends Error {
   }
 
   messageHandler(marker) {
-    if (marker === 'card') {
-      this.message = 'Карточка с данным id не найдена';
+    if (marker === 'movie') {
+      this.message = 'Фильм с данным id не найден';
     } else if (marker === 'user') {
       this.message = 'Запрашиваемый пользователь не найден';
     } else if (marker === 'page') {

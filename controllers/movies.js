@@ -7,36 +7,15 @@ const { STATUS_OK, CREATED } = require('../utils/constants');
 
 const getUserFilms = (req, res, next) => {
   Movie.find({ owner: req.user._id })
+    .populate(['owner'])
     .then((movies) => res.status(STATUS_OK).send(movies))
     .catch(next);
 };
+
 const addUserFilm = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  } = req.body;
   const owner = req.user._id;
   Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
+    ...req.body,
     owner,
   })
     .then((movie) => res.status(CREATED).send(movie))
@@ -48,14 +27,15 @@ const addUserFilm = (req, res, next) => {
       next(err);
     });
 };
+
 const deleteUserFilm = (req, res, next) => {
   Movie.findById(req.params._id)
-    .orFail(new NotFoundError('card'))
+    .orFail(new NotFoundError('movie'))
     .then((movie) => {
       const currnetUserId = req.user._id;
       const MovieOwnerId = movie.owner._id.toString();
       if (currnetUserId !== MovieOwnerId) {
-        throw new ForbiddenError('card');
+        throw new ForbiddenError('movie');
       }
 
       return movie.remove();

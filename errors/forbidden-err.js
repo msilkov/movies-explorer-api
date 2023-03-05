@@ -9,8 +9,8 @@ class ForbiddenError extends Error {
   }
 
   messageHandler(marker) {
-    if (marker === 'card') {
-      this.message = 'Можно удалять только свои карточки';
+    if (marker === 'movie') {
+      this.message = 'Можно удалять только свои фильмы';
     }
   }
 }
