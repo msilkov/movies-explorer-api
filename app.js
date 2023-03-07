@@ -2,6 +2,7 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 
 const router = require('./routes/index');
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use('/', router);
 
+app.use(errors()); // celebrate error handler
 app.use(errorsHandler); // centralized error handler
 
 module.exports = app;

@@ -1,10 +1,10 @@
 const usersRouter = require('express').Router();
 
 const { getUserInfo, patchUserInfo } = require('../controllers/users');
-// импорт мидлвар
+const { patchUserValidation } = require('../middlewares/requetsValidation');
 
 usersRouter.get('/me', getUserInfo);
 
-usersRouter.patch('/me', patchUserInfo);
+usersRouter.patch('/me', patchUserValidation, patchUserInfo);
 
 module.exports = usersRouter;
