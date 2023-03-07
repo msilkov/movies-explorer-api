@@ -1,29 +1,21 @@
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
 const router = require('./routes/index');
 
-const { createUser } = require('./controllers/users');
-
 const { errorsHandler } = require('./middlewares/errorsHandler');
+const { MONGO_DB_LINK } = require('./utils/constants');
 
 const app = express();
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+mongoose.connect(MONGO_DB_LINK);
 
 app.use(express.json());
 
-app.post('/signup', createUser);
-
-app.use((req, res, next) => {
-  req.user = {
-    _id: '6404d2f5476657cbda884b8d' // вставьте сюда _id созданного в предыдущем пункте пользователя
-  };
-
-  next();
-});
+app.use(cookieParser());
 
 app.use('/', router);
 

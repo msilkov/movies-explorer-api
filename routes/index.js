@@ -1,10 +1,14 @@
 const router = require('express').Router();
 const { incorrectRouteHandler } = require('../middlewares/incorrectRouteHandler');
+const { auth } = require('../middlewares/auth');
 const usersRouter = require('./usersRouter');
 const moviesRouter = require('./moviesRouter');
+const authRouter = require('./authRouter');
 
-router.use('/users', usersRouter);
-router.use('/movies', moviesRouter);
+router.use('/', authRouter);
+
+router.use('/users', auth, usersRouter);
+router.use('/movies', auth, moviesRouter);
 
 router.use('*', incorrectRouteHandler);
 

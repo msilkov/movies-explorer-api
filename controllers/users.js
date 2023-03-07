@@ -1,10 +1,13 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-req-err');
 const ConflictError = require('../errors/conflict-err');
 
 const User = require('../models/user');
 const { STATUS_OK } = require('../utils/constants');
+const { userResFormat } = require('../utils/utils');
+const { NODE_ENV, JWT_SECRET } = require('../config');
 
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
@@ -16,7 +19,7 @@ const createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      res.status(STATUS_OK).send(user);
+      res.status(STATUS_OK).send(userResFormat(user));
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -31,11 +34,47 @@ const createUser = (req, res, next) => {
     });
 };
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-some-secret-key',
+        { expiresIn: '7d' },
+      );
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+          // domain: NODE_ENV === 'production' ? 'msilkov.mesto.nomoredomainsclub.ru' : 'localhost',
+        })
+        .status(STATUS_OK)
+        .send(userResFormat(user));
+    })
+    .catch(next);
+};
+
+const logout = (req, res, next) => {
+  try {
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+      // domain: 'msilkov.mesto.nomoredomainsclub.ru',
+    }).send({ message: 'logout complete' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new NotFoundError('user'))
     .then((user) => {
-      res.status(STATUS_OK).send(user);
+      res.status(STATUS_OK).send(userResFormat(user));
     })
     .catch(next);
 };
@@ -53,7 +92,7 @@ const patchUserInfo = (req, res, next) => {
   )
     .orFail(new NotFoundError('user'))
     .then((user) => {
-      res.status(STATUS_OK).send(user);
+      res.status(STATUS_OK).send(userResFormat(user));
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -72,4 +111,6 @@ module.exports = {
   getUserInfo,
   patchUserInfo,
   createUser,
+  login,
+  logout,
 };

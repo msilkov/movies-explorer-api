@@ -7,6 +7,8 @@ const INTERNAL_SERVER_ERROR = 500;
 const STATUS_OK = 200;
 const CREATED = 201;
 
+const MONGO_DB_LINK = 'mongodb://localhost:27017/bitfilmsdb';
+
 const REG_LINK = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 
 module.exports = {
@@ -19,4 +21,5 @@ module.exports = {
   REG_LINK,
   FORBIDDEN,
   CREATED,
+  MONGO_DB_LINK,
 };
