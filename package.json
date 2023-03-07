@@ -21,6 +21,7 @@
   "homepage": "https://github.com/msilkov/movies-explorer-api#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "celebrate": "^15.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "eslint": "^8.35.0",
