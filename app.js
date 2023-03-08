@@ -9,6 +9,7 @@ const router = require('./routes/index');
 const { errorsHandler } = require('./middlewares/errorsHandler');
 const { limiter } = require('./middlewares/expressLimiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { corsHandler } = require('./middlewares/cors');
 
 const { DB_URL } = require('./config');
 
@@ -24,7 +25,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(requestLogger);
+app.use(corsHandler);
+
 app.use(router);
+
 app.use(errorLogger);
 
 app.use(errors()); // celebrate error handler

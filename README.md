@@ -1,22 +1,19 @@
 ## Backend дипломного проекта Яндекс Практикум "movies-explorer-api"
 
 ## Ссылки проекта
-IP  62.84.127.124
-Frontend  https://msilkov.mesto.nomoredomainsclub.ru/
-Backend  https://api.msilkov.mesto.nomoredomainsclub.ru
 
+IP 62.84.127.124
 
-## Ссылка на репозитоий 
+Backend https://api.msilkov.diploma.nomoredomains.work
+
+## Ссылка на репозитоий
 
 https://github.com/msilkov/movies-explorer-api
-  
 
-
-
-## Описание проекта: 
-
+## Описание проекта:
 
 ## В проекте использованы подходы и технологии:
+
 1. Node.js
 2. Express
 3. MongoDB

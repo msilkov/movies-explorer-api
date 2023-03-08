@@ -49,7 +49,7 @@ const login = (req, res, next) => {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
-          // domain: NODE_ENV === 'production' ? 'msilkov.mesto.nomoredomainsclub.ru' : 'localhost',
+          // domain: NODE_ENV === 'production' ? 'msilkov.diploma.nomoredomains.work' : 'localhost',
         })
         .status(STATUS_OK)
         .send(userResFormat(user));
@@ -63,7 +63,7 @@ const logout = (req, res, next) => {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
-      // domain: 'msilkov.mesto.nomoredomainsclub.ru',
+      // domain: 'msilkov.diploma.nomoredomains.work',
     }).send({ message: 'logout complete' });
   } catch (err) {
     next(err);
