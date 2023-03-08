@@ -3,7 +3,7 @@ const { REG_LINK } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
-  type: String,
+    type: String,
     required: true,
   },
   director: {
