@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(requestLogger);
-app.use(router);
+app.use('/', router);
 app.use(errorLogger);
 
 app.use(errors()); // celebrate error handler
