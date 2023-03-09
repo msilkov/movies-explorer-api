@@ -10,6 +10,6 @@ router.use('/', authRouter);
 router.use('/users', auth, usersRouter);
 router.use('/movies', auth, moviesRouter);
 
-router.use('*', incorrectRouteHandler);
+router.use('*', auth, incorrectRouteHandler);
 
 module.exports = router;
