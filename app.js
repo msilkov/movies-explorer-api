@@ -18,7 +18,6 @@ const app = express();
 mongoose.set('strictQuery', true);
 mongoose.connect(DB_URL);
 
-app.use(limiter);
 app.use(helmet());
 
 app.use(express.json());
@@ -27,6 +26,7 @@ app.use(cookieParser());
 app.use(requestLogger);
 app.use(corsHandler);
 
+app.use(limiter);
 app.use(router);
 
 app.use(errorLogger);
