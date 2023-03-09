@@ -63,7 +63,7 @@ const logout = (req, res, next) => {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
-      domain: 'msilkov.diploma.nomoredomains.work',
+      domain: NODE_ENV === 'production' ? 'msilkov.diploma.nomoredomains.work' : 'localhost',
     }).send({ message: 'logout complete' });
   } catch (err) {
     next(err);
