@@ -7,7 +7,7 @@ const usersRouter = require('./usersRouter');
 const moviesRouter = require('./moviesRouter');
 const authRouter = require('./authRouter');
 
-router.use('/auth', authRouter);
+router.use('/', authRouter);
 
 router.use('/users', auth, usersRouter);
 router.use('/movies', auth, moviesRouter);
