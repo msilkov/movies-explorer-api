@@ -48,7 +48,7 @@ const login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: 'none',
-          secure: true,
+          secure: false,
           domain: NODE_ENV === 'production' ? 'msilkov.diploma.nomoredomains.work' : 'localhost',
         })
         .status(STATUS_OK)
